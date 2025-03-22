@@ -10,6 +10,11 @@ namespace ConsoleAppsBasicLevel
             PhoneNumber = phoneNumber;
             Email = email;  
         }
+
+        public override string ToString()
+        {
+            return $"Name: {Name}, Phone: {PhoneNumber}, Email: {Email}";
+        }
     }
 
 }

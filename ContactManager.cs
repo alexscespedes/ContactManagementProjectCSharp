@@ -1,12 +1,15 @@
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace ConsoleAppsBasicLevel
 {
         class ContactManager {
         private List<Contact> contacts = new List<Contact>();
+        TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
 
-        public bool AddContactToList(List<Contact> contacts, string name, string phoneNumber, string? email) {
-            if (!ContactExists(name))
+
+        public bool AddContactToList(string name, string phoneNumber, string? email) {
+            if (ContactExists(name))
             {
                 Console.WriteLine($"The contact already exists");
                 return false;
@@ -28,6 +31,43 @@ namespace ConsoleAppsBasicLevel
 
         }
 
+        public Contact? SearchContactByName(string name) {
+
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                System.Console.WriteLine("Error: the name cannot be empty");
+                return null;
+            }
+
+            if (!Regex.IsMatch(name.Trim(), @"^[a-zA-Z\s]+$"))
+            {
+                Console.WriteLine("Error: contact name not valid");
+                return null;
+            }
+
+            var contact = contacts.FirstOrDefault(c => c.Name.Equals(name.Trim(), StringComparison.OrdinalIgnoreCase));
+
+            if (contact == null)
+            {
+                Console.WriteLine("Contact was not found");
+            }
+
+            return contact;
+        }
+
+        public void DisplayAllContacts() {
+            if (contacts.Count == 0)
+            {
+                Console.WriteLine("The contact list is empty");
+            }
+            var sortedContacts = contacts.OrderBy(contact => contact.Name).ToList();
+
+           foreach (var contact in sortedContacts)
+            {
+                Console.WriteLine($"Name: {contact.Name}, Phone: {contact.PhoneNumber}, Email: {contact.Email}");
+            }
+        }
+
         private bool ContactExists(string name) {
             return contacts.Exists(contact => contact.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
         }
@@ -43,6 +83,13 @@ namespace ConsoleAppsBasicLevel
             string pattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
             return Regex.IsMatch(email, pattern);
         }        
+
+        public void PrintContact() {
+            foreach (var contact in contacts)
+            {
+                Console.WriteLine($"{contact.Name} {contact.PhoneNumber} {contact.Email}");
+            }
+        }
     }
 }
 
