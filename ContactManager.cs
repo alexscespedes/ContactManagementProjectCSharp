@@ -26,7 +26,27 @@ namespace ConsoleAppsBasicLevel
             }
 
             contacts.Add(new Contact (name, phoneNumber, email));
+            SaveContactsToFile(contacts);   
             Console.WriteLine($"User {name} added succesfully.");
+            return true;
+
+        }
+
+        public bool SaveContactsToFile(List<Contact> contacts) {
+            try
+            {
+                StreamWriter sw = new StreamWriter("/home/alexsc03/Documents/Projects/DotNet/MyCSharpProjects/ConsoleAppsBasicLevel/contacts.txt");
+
+                foreach (var item in contacts)
+                {
+                    sw.WriteLine(item);
+                }
+                sw.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception: " + e.Message);
+            }
             return true;
 
         }

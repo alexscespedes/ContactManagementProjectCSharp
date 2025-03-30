@@ -52,8 +52,7 @@ namespace ConsoleAppsBasicLevel
 
                     default:
                         Console.WriteLine("Invalid option. Please try again.");
-                        break;
-                                        
+                        break;       
                 }
             }
 
