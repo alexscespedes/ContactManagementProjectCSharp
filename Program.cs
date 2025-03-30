@@ -12,8 +12,9 @@ namespace ConsoleAppsBasicLevel
             while (!exit) {
                 Console.WriteLine("\nContact Manager");
                 Console.WriteLine("1. Add Contact");
-                Console.WriteLine("2. Display Contacts");
-                Console.WriteLine("3. Exit");
+                Console.WriteLine("2. Search by Name");
+                Console.WriteLine("3. Display Contacts");
+                Console.WriteLine("4. Exit");
                 Console.Write("Choose an option: ");
 
                 if (!int.TryParse(Console.ReadLine(), out int userInput)) 
@@ -34,14 +35,30 @@ namespace ConsoleAppsBasicLevel
                         contactManager.AddContactToList(name, phone, email);
                         break;
 
-                    // case 2: Continuing here...
-                        
+                    case 2:
+                        Console.Write("Enter a Name: ");
+                        name = Console.ReadLine();
+                        contactManager.SearchContactByName(name);
+                        break;
+
+                    case 3:
+                        contactManager.DisplayAllContacts();
+                        break;
+
+                    case 4:
+                        exit = true;
+                        Console.WriteLine("Exiting program...");
+                        break;
+
+                    default:
+                        Console.WriteLine("Invalid option. Please try again.");
+                        break;
                                         
                 }
             }
 
 
-
+            /*
             contactManager.AddContactToList("Chris", "789-123-1596", "chris@gmail.com");
             contactManager.AddContactToList("Alexander", "809-479-9651", "alex@gmail.com");
             contactManager.AddContactToList("Stefan", "000-183-1696", "stefan@gmail.com");
@@ -51,6 +68,7 @@ namespace ConsoleAppsBasicLevel
             var result = contactManager.SearchContactByName("Al");
             Console.WriteLine(result?.ToString());
             // contactManager.DisplayAllContacts();
+            */
 
 
         }
