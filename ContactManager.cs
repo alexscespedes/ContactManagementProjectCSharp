@@ -32,15 +32,36 @@ namespace ConsoleAppsBasicLevel
 
         }
 
-        public bool SaveContactsToFile(List<Contact> contacts) {
+        public void ReadContactsFromFile() {
+            String line;
+
+            try
+            {
+                StreamReader file = new StreamReader("/home/alexsc03/Documents/Projects/DotNet/MyCSharpProjects/ConsoleAppsBasicLevel/contacts.txt");
+
+                string headerline = file.ReadLine();
+                while ((line = file.ReadLine()) != null) {
+                    string[] items = line.Split(',');
+                    contacts.Add(new Contact (items[0], items[1], items[2]));
+                }
+                file.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception: " + e.Message);
+            }
+
+        }
+
+        public void SaveContactsToFile(List<Contact> contacts) {
             try
             {
                 StreamWriter sw = new StreamWriter("/home/alexsc03/Documents/Projects/DotNet/MyCSharpProjects/ConsoleAppsBasicLevel/contacts.txt");
-                sw.WriteLine("Name, PhoneNumber, Email");
+                // sw.WriteLine("Name,PhoneNumber,Email");
 
                 foreach (var item in contacts)
                 {
-                    sw.WriteLine($"{item.Name}, {item.PhoneNumber}, {item.Email}");
+                    sw.WriteLine($"{item.Name},{item.PhoneNumber},{item.Email}");
                 }
                 sw.Close();
             }
@@ -48,8 +69,6 @@ namespace ConsoleAppsBasicLevel
             {
                 Console.WriteLine("Exception: " + e.Message);
             }
-            return true;
-
         }
 
         public Contact? SearchContactByName(string name) {

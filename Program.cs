@@ -7,6 +7,7 @@ namespace ConsoleAppsBasicLevel
         static void Main(string[] args)
         {
             ContactManager contactManager = new ContactManager();
+            contactManager.ReadContactsFromFile();
             bool exit = false;
 
             while (!exit) {
