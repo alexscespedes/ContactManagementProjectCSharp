@@ -36,10 +36,11 @@ namespace ConsoleAppsBasicLevel
             try
             {
                 StreamWriter sw = new StreamWriter("/home/alexsc03/Documents/Projects/DotNet/MyCSharpProjects/ConsoleAppsBasicLevel/contacts.txt");
+                sw.WriteLine("Name, PhoneNumber, Email");
 
                 foreach (var item in contacts)
                 {
-                    sw.WriteLine(item);
+                    sw.WriteLine($"{item.Name}, {item.PhoneNumber}, {item.Email}");
                 }
                 sw.Close();
             }
