@@ -5,13 +5,15 @@ namespace ConsoleAppsBasicLevel
 {
     public class ContactManager {
         private List<Contact> contacts = new List<Contact>();
+
+        private Dictionary<string, List<Contact>> contactsByCategory = new Dictionary<string, List<Contact>>();
         TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
 
 
-        public bool AddContactToList(string name, string phoneNumber, string? email) {
-            if (string.IsNullOrWhiteSpace(name))
+        public bool AddContactToList(string name, string phoneNumber, string? email, string category) {
+            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(category))
             {
-                Console.WriteLine("Error: Name cannot be empty");
+                Console.WriteLine("Error: Name or Category cannot be empty");
                 return false;
             }
             
@@ -31,7 +33,7 @@ namespace ConsoleAppsBasicLevel
                 return false;
             }
 
-            contacts.Add(new Contact (name, phoneNumber, email));
+            contacts.Add(new Contact (name, phoneNumber, email, category));
             SaveContactsToFile(contacts);   
             Console.WriteLine($"User {name} added succesfully.");
             return true;
@@ -43,7 +45,6 @@ namespace ConsoleAppsBasicLevel
             if (!File.Exists(filePath))
             {
                 Console.WriteLine("No contacts file found. Starting with an empty list.");
-                return;
             }
 
             try
@@ -56,7 +57,7 @@ namespace ConsoleAppsBasicLevel
                         string[] items = line.Split(',');
                         if (items.Length >= 2)
                         {
-                            contacts.Add(new Contact (items[0], items[1], items.Length > 2 ? items[2] : null));
+                            contacts.Add(new Contact (items[0], items[1], items.Length > 2 ? items[2] : null, items[3]));
                         }
                     }
                 }

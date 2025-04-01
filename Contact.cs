@@ -5,15 +5,13 @@ namespace ConsoleAppsBasicLevel
         public string PhoneNumber { get; set; }
         public string? Email {get; set;}
 
-        public Contact (string name, string phoneNumber, string? email) {
+        public string Category { get; set; }
+
+        public Contact (string name, string phoneNumber, string? email, string category) {
             Name = name;
             PhoneNumber = phoneNumber;
             Email = email;
-        }
-
-        public override string ToString()
-        {
-            return $"Name: {Name}, Phone: {PhoneNumber}, Email: {Email}";
+            Category = category;
         }
     }
 
