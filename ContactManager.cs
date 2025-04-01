@@ -3,12 +3,18 @@ using System.Text.RegularExpressions;
 
 namespace ConsoleAppsBasicLevel
 {
-        class ContactManager {
+    public class ContactManager {
         private List<Contact> contacts = new List<Contact>();
         TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
 
 
         public bool AddContactToList(string name, string phoneNumber, string? email) {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                Console.WriteLine("Error: Name cannot be empty");
+                return false;
+            }
+            
             if (ContactExists(name))
             {
                 Console.WriteLine($"The contact already exists");
@@ -29,7 +35,6 @@ namespace ConsoleAppsBasicLevel
             SaveContactsToFile(contacts);   
             Console.WriteLine($"User {name} added succesfully.");
             return true;
-
         }
 
         public void ReadContactsFromFile() {
@@ -64,33 +69,36 @@ namespace ConsoleAppsBasicLevel
         }
 
         public void SaveContactsToFile(List<Contact> contacts) {
+            string filePath = "/home/alexsc03/Documents/Projects/DotNet/MyCSharpProjects/ConsoleAppsBasicLevel/contacts.txt";
             try
             {
-                StreamWriter sw = new StreamWriter("/home/alexsc03/Documents/Projects/DotNet/MyCSharpProjects/ConsoleAppsBasicLevel/contacts.txt");
-                // sw.WriteLine("Name,PhoneNumber,Email");
-
-                foreach (var item in contacts)
+                using (StreamWriter sw = new StreamWriter(filePath))
                 {
-                    sw.WriteLine($"{item.Name},{item.PhoneNumber},{item.Email}");
+                    foreach (var contact in contacts)
+                    {
+                        sw.WriteLine($"{contact.Name},{contact.PhoneNumber},{contact.Email}");
+                    }
                 }
-                sw.Close();
+                
             }
             catch (Exception e)
             {
-                Console.WriteLine("Exception: " + e.Message);
+                Console.WriteLine("Error saving contacts: " + e.Message);
             }
         }
 
-        public void SearchContactByName(string name) {
+        public bool SearchContactByName(string name) {
 
             if (string.IsNullOrWhiteSpace(name))
             {
                 System.Console.WriteLine("Error: the name cannot be empty");
+                return false;
             }
 
             if (!Regex.IsMatch(name.Trim(), @"^[a-zA-Z\s]+$"))
             {
                 Console.WriteLine("Error: contact name not valid");
+                return false;
             }
 
             var contactsPartialSearched = contacts.Where(c => c.Name.StartsWith(name.Trim(), StringComparison.InvariantCultureIgnoreCase)).ToList();
@@ -98,12 +106,14 @@ namespace ConsoleAppsBasicLevel
             if (contactsPartialSearched.Count == 0)
             {
                 Console.WriteLine("Contact was not found");
+                return false;
             }
 
             foreach (var item in contactsPartialSearched)
             {
                 Console.WriteLine(item);
             }
+            return true;
         }
 
         public void DisplayAllContacts() {
@@ -134,13 +144,6 @@ namespace ConsoleAppsBasicLevel
             string pattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
             return Regex.IsMatch(email, pattern);
         }        
-
-        public void PrintContact() {
-            foreach (var contact in contacts)
-            {
-                Console.WriteLine($"{contact.Name} {contact.PhoneNumber} {contact.Email}");
-            }
-        }
     }
 }
 
