@@ -57,20 +57,6 @@ namespace ConsoleAppsBasicLevel
                 }
             }
 
-
-            /*
-            contactManager.AddContactToList("Chris", "789-123-1596", "chris@gmail.com");
-            contactManager.AddContactToList("Alexander", "809-479-9651", "alex@gmail.com");
-            contactManager.AddContactToList("Stefan", "000-183-1696", "stefan@gmail.com");
-            contactManager.AddContactToList("Damon", "963-852-7411", "damon@gmail.com");
-
-            // contactManager.PrintContact();
-            var result = contactManager.SearchContactByName("Al");
-            Console.WriteLine(result?.ToString());
-            // contactManager.DisplayAllContacts();
-            */
-
-
         }
     }
 }

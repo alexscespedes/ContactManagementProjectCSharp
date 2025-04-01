@@ -33,24 +33,34 @@ namespace ConsoleAppsBasicLevel
         }
 
         public void ReadContactsFromFile() {
-            String line;
+            string filePath = "/home/alexsc03/Documents/Projects/DotNet/MyCSharpProjects/ConsoleAppsBasicLevel/contacts.txt";
+
+            if (!File.Exists(filePath))
+            {
+                Console.WriteLine("No contacts file found. Starting with an empty list.");
+                return;
+            }
 
             try
             {
-                StreamReader file = new StreamReader("/home/alexsc03/Documents/Projects/DotNet/MyCSharpProjects/ConsoleAppsBasicLevel/contacts.txt");
-
-                string headerline = file.ReadLine();
-                while ((line = file.ReadLine()) != null) {
-                    string[] items = line.Split(',');
-                    contacts.Add(new Contact (items[0], items[1], items[2]));
+                using (StreamReader file = new StreamReader(filePath))
+                {
+                    string line;
+                    string headerline = file.ReadLine();
+                    while ((line = file.ReadLine()) != null) {
+                        string[] items = line.Split(',');
+                        if (items.Length >= 2)
+                        {
+                            contacts.Add(new Contact (items[0], items[1], items.Length > 2 ? items[2] : null));
+                        }
+                    }
                 }
-                file.Close();
+               
             }
             catch (Exception e)
             {
                 Console.WriteLine("Exception: " + e.Message);
             }
-
         }
 
         public void SaveContactsToFile(List<Contact> contacts) {
@@ -85,7 +95,7 @@ namespace ConsoleAppsBasicLevel
 
             var contactsPartialSearched = contacts.Where(c => c.Name.StartsWith(name.Trim(), StringComparison.InvariantCultureIgnoreCase)).ToList();
 
-            if (contactsPartialSearched == null)
+            if (contactsPartialSearched.Count == 0)
             {
                 Console.WriteLine("Contact was not found");
             }
