@@ -8,7 +8,7 @@ namespace ConsoleAppsBasicLevel
         public Contact (string name, string phoneNumber, string? email) {
             Name = name;
             PhoneNumber = phoneNumber;
-            Email = email;  
+            Email = email;
         }
 
         public override string ToString()

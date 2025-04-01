@@ -71,28 +71,29 @@ namespace ConsoleAppsBasicLevel
             }
         }
 
-        public Contact? SearchContactByName(string name) {
+        public void SearchContactByName(string name) {
 
             if (string.IsNullOrWhiteSpace(name))
             {
                 System.Console.WriteLine("Error: the name cannot be empty");
-                return null;
             }
 
             if (!Regex.IsMatch(name.Trim(), @"^[a-zA-Z\s]+$"))
             {
                 Console.WriteLine("Error: contact name not valid");
-                return null;
             }
 
-            var contact = contacts.FirstOrDefault(c => c.Name.Equals(name.Trim(), StringComparison.OrdinalIgnoreCase));
+            var contactsPartialSearched = contacts.Where(c => c.Name.StartsWith(name.Trim(), StringComparison.InvariantCultureIgnoreCase)).ToList();
 
-            if (contact == null)
+            if (contactsPartialSearched == null)
             {
                 Console.WriteLine("Contact was not found");
             }
 
-            return contact;
+            foreach (var item in contactsPartialSearched)
+            {
+                Console.WriteLine(item);
+            }
         }
 
         public void DisplayAllContacts() {
