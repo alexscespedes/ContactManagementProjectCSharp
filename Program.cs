@@ -7,7 +7,7 @@ namespace ConsoleAppsBasicLevel
         static void Main(string[] args)
         {
             ContactManager contactManager = new ContactManager();
-            contactManager.ReadContactsFromFile();
+            // contactManager.ReadContactsFromFile();
             bool exit = false;
 
             while (!exit) {
@@ -33,7 +33,9 @@ namespace ConsoleAppsBasicLevel
                         Console.Write("Enter an Email: ");
                         string? email = Console.ReadLine();
                         if (string.IsNullOrWhiteSpace(email)) email = null;
-                        contactManager.AddContactToList(name, phone, email);
+                        Console.Write("Enter a Category: ");
+                        string category = Console.ReadLine();
+                        contactManager.AddContactToList(name, phone, email, category);
                         break;
 
                     case 2:

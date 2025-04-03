@@ -11,9 +11,9 @@ namespace ConsoleAppsBasicLevel
 
 
         public bool AddContactToList(string name, string phoneNumber, string? email, string category) {
-            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(category))
+            if (string.IsNullOrWhiteSpace(name))
             {
-                Console.WriteLine("Error: Name or Category cannot be empty");
+                Console.WriteLine("Error: Name cannot be empty");
                 return false;
             }
             
@@ -33,8 +33,21 @@ namespace ConsoleAppsBasicLevel
                 return false;
             }
 
+            if (CategoryExists(category))
+            {
+                Console.WriteLine($"The Category already exists");
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(category))
+            {
+                Console.WriteLine("Error: Category cannot be empty");
+                return false;
+            }
+
             contacts.Add(new Contact (name, phoneNumber, email, category));
-            SaveContactsToFile(contacts);   
+            AddContactwithCategory(category, contacts);
+            // SaveContactsToFile(contacts);   
             Console.WriteLine($"User {name} added succesfully.");
             return true;
         }
@@ -102,6 +115,7 @@ namespace ConsoleAppsBasicLevel
                 return false;
             }
 
+            // Checking if does not exist (name).
             var contactsPartialSearched = contacts.Where(c => c.Name.StartsWith(name.Trim(), StringComparison.InvariantCultureIgnoreCase)).ToList();
 
             if (contactsPartialSearched.Count == 0)
@@ -126,12 +140,22 @@ namespace ConsoleAppsBasicLevel
 
            foreach (var contact in sortedContacts)
             {
-                Console.WriteLine($"Name: {contact.Name}, Phone: {contact.PhoneNumber}, Email: {contact.Email}");
+                Console.WriteLine($"Name: {contact.Name}, Phone: {contact.PhoneNumber}, Email: {contact.Email}, Category: {contact.Category}");
             }
+        }
+
+        public bool AddContactwithCategory(string category, List<Contact> contacts)
+        {
+            contactsByCategory.Add(category, contacts);
+            return true;
         }
 
         private bool ContactExists(string name) {
             return contacts.Exists(contact => contact.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+        }
+            // Check this validation.
+        private bool CategoryExists(string category) {
+            return contacts.Exists(contact => contact.Category.Equals(category, StringComparison.OrdinalIgnoreCase));
         }
     
         private bool IsValidPhoneNumber(string phoneNumber) {
