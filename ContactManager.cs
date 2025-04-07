@@ -150,6 +150,26 @@ namespace ConsoleAppsBasicLevel
             return true;
         }
 
+        // Check this method.
+        public void DisplayContactsByCategory(string category) 
+        {
+            if (contactsByCategory.Count == 0)
+            {
+                Console.WriteLine("The contact dictionary is empty");
+            }
+
+            var dictionary = contactsByCategory.Where(dict => dict.Key == category).ToList();
+
+            foreach (var dict in dictionary)
+            {
+                
+                foreach (var contact in dict.Value)
+                {
+                    Console.WriteLine($"Name: {contact.Name}, Phone: {contact.PhoneNumber}, Email: {contact.Email}, Category: {contact.Category}");
+                }
+            }
+        }
+
         private bool ContactExists(string name) {
             return contacts.Exists(contact => contact.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
         }

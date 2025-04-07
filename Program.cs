@@ -15,7 +15,10 @@ namespace ConsoleAppsBasicLevel
                 Console.WriteLine("1. Add Contact");
                 Console.WriteLine("2. Search by Name");
                 Console.WriteLine("3. Display Contacts");
-                Console.WriteLine("4. Exit");
+                Console.WriteLine("4. Contacts by Category");
+                Console.WriteLine("5. All Contacts with Category");
+                Console.WriteLine("6. Search by Category");
+                Console.WriteLine("7. Exit");
                 Console.Write("Choose an option: ");
 
                 if (!int.TryParse(Console.ReadLine(), out int userInput)) 
@@ -49,6 +52,23 @@ namespace ConsoleAppsBasicLevel
                         break;
 
                     case 4:
+                        Console.WriteLine("Select a category...");
+                        string option = Console.ReadLine();
+                        contactManager.DisplayContactsByCategory(option);
+                        break;
+                    
+                    case 5:
+                        Console.WriteLine("All Contacts grouped by category...");
+                        break;
+
+                    
+                    case 6:
+                        exit = true;
+                        Console.WriteLine("Enter a category...");
+                        break;
+
+                    
+                    case 7:
                         exit = true;
                         Console.WriteLine("Exiting program...");
                         break;
